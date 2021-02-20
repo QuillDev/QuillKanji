@@ -17,8 +17,6 @@ public class KanjiScanner {
         this.kanjiTomo.setOrientation(Orientation.VERTICAL);
         this.kanjiTomo.setCharacterColor(CharacterColor.BLACK_ON_WHITE);
         this.kanjiTomo.setDictionary(DictionaryType.JAPANESE_DEFAULT, DictionaryType.JAPANESE_NAMES);
-
-        //new Translator();
     }
 
     /**

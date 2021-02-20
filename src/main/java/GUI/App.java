@@ -1,6 +1,7 @@
 package GUI;
 
 import Scanner.KanjiScanner;
+import Scanner.Translator;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -18,6 +19,9 @@ public class App extends Application {
     private KanjiScanner scanner;
     private final Label kanjiLabel = new Label("Kanji");
     private final Label meaningLabel = new Label("Meaning");
+    private final Label yomiDict = new Label("Yomi Meaning");
+    private final static Translator translator = new Translator();
+
 
     public App() {
         try {
@@ -37,12 +41,14 @@ public class App extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         grid.add(kanjiLabel, 0, 0);
-        grid.add(meaningLabel, 0, 1);
+        grid.add(yomiDict, 0, 1);
+        grid.add(meaningLabel, 0, 2);
         Scene scene = new Scene(grid, 640, 480);
 
-        var font = new Font("Segoe UI", 24);
+        var font = new Font("Segoe UI", 18);
         kanjiLabel.setFont(font);
         meaningLabel.setFont(font);
+        yomiDict.setFont(font);
         stage.setScene(scene);
         stage.show();
 
@@ -64,10 +70,14 @@ public class App extends Application {
                 if(result.bestMatchingCharacters.equals(lastResult)){
                     continue;
                 }
+
+
+                var yomiMeaning = translator.searchFor(result.words.get(0).kanji);
                 //Change the kanji labels text
                 Platform.runLater( () -> {
                     this.kanjiLabel.setText(result.words.get(0).kanji);
-                    this.meaningLabel.setText(result.words.get(0).description);
+                    this.yomiDict.setText("YomiDict:\n"+ yomiMeaning);
+                    this.meaningLabel.setText("InternalDict: \n" + result.words.get(0).description);
                 });
 
                 lastResult = result.bestMatchingCharacters;

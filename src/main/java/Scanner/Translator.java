@@ -30,7 +30,13 @@ public class Translator {
                         continue;
                     }
 
-                    return JsonPath.read(document, String.format("$[%s][5][0]", index)).toString();
+                    ArrayList<String> meanings = JsonPath.read(document, String.format("$[%s][5]", index));
+                    StringBuilder results = new StringBuilder();
+                    for(int meaningIndex = 0; meaningIndex < Math.min(meanings.size(), 3); meaningIndex++){
+                        var meaning = JsonPath.read(document, String.format("$[%s][5][%s]", index, meaningIndex)).toString();
+                        results.append(String.format("%s) %s", meaningIndex+1, meaning)).append("\n");
+                    }
+                    return results.toString();
                 }
             }
         }
