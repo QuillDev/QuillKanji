@@ -12,5 +12,5 @@ but it is "functional".
 - [ ] Open YomiChan Dicts in Zip Format
 - [ ] Add toggles for Text Color / Orientation
 
-##TODO Optimizations
+## TODO Optimizations
 - [ ] Speed Up YomiChan style dictionary searching (it's really slow w/ more than 1);
