@@ -71,18 +71,27 @@ public class App extends Application {
                     continue;
                 }
 
+                //get the yomichan meaning of the word
+                final var wordResults = (result.words.size() > 0);
+                final var kanjiString = (wordResults) ? result.words.get(0).kanji : "No Words Found";
+                final var yomiMeaning = (wordResults) ? "YomiDict:\n"+ translator.searchFor(result.words.get(0).kanji) : "";
+                final var meaningString = (yomiMeaning.length() > 0) ? "": "InternalDict: \n" + result.words.get(0).description;
 
-                var yomiMeaning = translator.searchFor(result.words.get(0).kanji);
                 //Change the kanji labels text
                 Platform.runLater( () -> {
-                    this.kanjiLabel.setText(result.words.get(0).kanji);
-                    this.yomiDict.setText("YomiDict:\n"+ yomiMeaning);
-                    this.meaningLabel.setText("InternalDict: \n" + result.words.get(0).description);
+                    this.kanjiLabel.setText(kanjiString);
+                    this.yomiDict.setText(yomiMeaning);
+                    this.meaningLabel.setText(meaningString);
                 });
 
                 lastResult = result.bestMatchingCharacters;
             } catch (Exception e) {
                 e.printStackTrace();
+                Platform.runLater( () -> {
+                    this.kanjiLabel.setText("No Kanji Found");
+                    this.yomiDict.setText("");
+                    this.meaningLabel.setText("");
+                });
             }
         }
     });

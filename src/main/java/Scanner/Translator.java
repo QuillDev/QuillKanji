@@ -19,19 +19,27 @@ public class Translator {
     }
 
     public String searchFor(String query){
-        System.out.println("Started Searching!");
+
+        //Iterate through dictionaries
         for(final var dict : dictionaries) {
+            //Iterate through each segment of the dictionary
             for(final var entry : dict){
+                //Convert the doc intop a jason object
                 var document = Configuration.defaultConfiguration().jsonProvider().parse(entry);
                 ArrayList<String> keys = JsonPath.read(document, "$");
+
+                //Loop through all items in that chunk
                 for(int index = 0; index < keys.size(); index++){
                     var key = JsonPath.read(document, String.format("$[%s][0]", index)).toString();
                     if(!key.equals(query)){
                         continue;
                     }
 
+                    //Get the meaning segment of the word
                     ArrayList<String> meanings = JsonPath.read(document, String.format("$[%s][5]", index));
                     StringBuilder results = new StringBuilder();
+
+                    //Get the top 3 or less meanings of the word
                     for(int meaningIndex = 0; meaningIndex < Math.min(meanings.size(), 3); meaningIndex++){
                         var meaning = JsonPath.read(document, String.format("$[%s][5][%s]", index, meaningIndex)).toString();
                         results.append(String.format("%s) %s", meaningIndex+1, meaning)).append("\n");
@@ -43,6 +51,10 @@ public class Translator {
 
         return "";
     }
+
+    /**
+     * Load all dictionaries in the dictionaries directory
+     */
     public void loadDictionaries(){
         var dictionaryPaths = getFiles("Dictionaries", true);
 
