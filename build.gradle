@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+group 'tech.quilldev'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation files("libs/KanjiTomoOCR.jar")
+    implementation group: 'com.github.michaelgantman', name: 'MgntUtils', version: '1.5.1.2'
+    implementation 'net.java.dev.jna:jna:5.7.0'
+    implementation 'net.java.dev.jna:jna-platform:5.7.0'
+    implementation group: 'org.json', name: 'json', version: '20201115'
+    implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.5.0'
+}
+
+
+javafx {
+    version = "15.0.1"
+    modules = [ 'javafx.controls' ]
+}
+
+mainClassName = "Main"
